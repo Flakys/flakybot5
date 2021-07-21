@@ -15,12 +15,11 @@ from os import name
 import ffmpeg 
 
 
-
 webbrowser.register('Chrome', None, webbrowser.BackgroundBrowser('C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'))
 URL = 'https://news.google.com/topics/CAAqBwgKMIXDmAswuMmwAw?hl=ru&gl=RU&ceid=RU%3Aru'
 HEADERS={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36', 'accept': '*/*'} 
 TOKEN= ''
-client = commands.Bot(command_prefix= '!')
+client = commands.Bot(command_prefix= 'F ')
 client.remove_command('help')
 
 
@@ -45,18 +44,19 @@ def get_content(html):
 @client.event
 async def on_ready():
     print("Флэки активна")
-    await client.change_presence( status = discord.Status.online, activity = discord.Game('Crysis'))
+    await client.change_presence( status = discord.Status.online, activity = discord.Game('Happy Tree Frends'))
 
 @client.command(pass_context=True)  
 async def help(ctx):
     
-    print('!help comand')
+    print('F help comand')
     emb = discord.Embed( title = 'Навигация по командам')
 
-    emb.add_field( name = '{}game'.format('!'), value='Пингует пользователей которые смогут пойти с вами играть в выбранные игры. Игры выбираются подкомандами (сокращенное название игр r6 или R6 означает Rainbow Six: Siege, и т.д.')
-    emb.add_field( name = '{}info'.format('!'), value='Последние новости, обновляются при вызове команды')
-    emb.add_field( name = '{}bot'.format('!'), value='Исходный код бота')
-    emb.add_field( name = '{}music'.format('!'), value='Информация для работы с музыкой')
+    emb.add_field( name = '{}game'.format('F '), value='Пингует пользователей которые смогут пойти с вами играть в выбранные игры. Игры выбираются подкомандами (сокращенное название игр r6 или R6 означает Rainbow Six: Siege, и т.д.')
+    emb.add_field( name = '{}info'.format('F '), value='Последние новости, обновляются при вызове команды')
+    emb.add_field( name = '{}music'.format('F '), value='Информация для работы с музыкой')
+    emb.add_field( name = '{}game'.format('F '), value='Пингует пользователей которые смогут пойти с вами играть в выбранные игры. Игры выбираются подкомандами (сокращенное название игр r6 или R6 означает Rainbow Six: Siege, и т.д.')
+    emb.add_field( name = '{}TC'.format('F '), value='Техподдержка если чето не робит')
     await ctx.send( embed = emb )
    
 
@@ -87,7 +87,7 @@ async def game(ctx, arg=None):
 
 @client.command(pass_context=True)
 async def info(ctx):
-    print('!info comand')
+    print('F info comand')
     html = requests.get(URL)
     if html.status_code==200:
         print(html)
@@ -95,11 +95,15 @@ async def info(ctx):
         await ctx.send(mes)
     
 
-@client.command(pass_context=True)
-async def bot(ctx):
-    emb=discord.Embed( title='GitHub', description='Для корректной работы требуются модули BS4, request, discord' ,colour= discord.Color.dark_orange(), url='https://github.com/ilyaRozhkov/DiscordBot')
-    await ctx.send( embed = emb )
-     
+
+@client.command( pass_context = True )
+@commands.has_permissions( administrator = True )
+
+async def clear( ctx, amount = 10 ):
+    await ctx.channel.purge( limit = amount )
+
+
+
 
 @client.command(pass_context=True)
 async def join(ctx):
@@ -111,6 +115,8 @@ async def join(ctx):
         await voice.move_to(channel)
     else:
         voice=await channel.connect()
+        await ctx.send(f'Флэки присоеденилась к каналу: {channel}')
+        
         
 
 @client.command(pass_context=True)
@@ -122,6 +128,7 @@ async def leave(ctx):
         await voice.disconnect()
     else:
         voice=await channel.connect()
+        await ctx.send(f'Флэки отсоеденилась от канала: {channel}')
 
 
 @client.command(pass_context=True)
@@ -166,6 +173,11 @@ async def play(ctx, arg):
     name_song = name.rsplit('-', 2)
     await ctx.send(f'Играет трек: {name_song[0]}')
 
+
+
+
+
+
 @client.command(pass_context=True)
 async def pause(ctx):
        voice.pause()
@@ -178,14 +190,29 @@ async def resume(ctx):
 async def stop(ctx):
        voice.stop()
        
+@client.command(pass_context=True)
+async def TC(ctx):
+    embed = discord.Embed(
+        title="***Тык*** для перехода",
+        description="Мой ВК, типа техподдержка",
+        url='https://vk.com/flaky1',
+    )
+    await ctx.send(embed=embed)
+       
+
+
+
+
+
+
 
 @client.command(pass_comtext=True)
 async def music(ctx):
     emb=discord.Embed(title = 'Music', colour = discord.Color.dark_gold())
-    emb.add_field(name = '!play + str', value='запуск трека, название трека одним словом')
-    emb.add_field(name = '!pause', value='поставить трек на паузу')
-    emb.add_field(name = '!resume', value='запустить трек вновь')
-    emb.add_field(name = '!stop', value='остановить трек и очистить поток')
+    emb.add_field(name = 'F play + str', value='Флэки запустит трек, надо лишь название трека одним словом')
+    emb.add_field(name = 'F pause', value='Флэки поставит трек на паузу')
+    emb.add_field(name = 'F resume', value='Флэки запустит трек вновь')
+    emb.add_field(name = 'F stop', value='Флэки остановит трек и очистит поток')
     await ctx.send(embed=emb)
 
 
@@ -206,8 +233,4 @@ def get_url_music(html):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         await ctx.send('Мне не доступна эта функция')
-    
 
-token = os.environ.get('BOT_TOKEN')
-
-client.run(str(token))
