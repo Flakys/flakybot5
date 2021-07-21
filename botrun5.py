@@ -234,3 +234,8 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         await ctx.send('Мне не доступна эта функция')
 
+        
+        
+token = os.environ.get('BOT_TOKEN')
+
+client.run(str(token))
