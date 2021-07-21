@@ -15,6 +15,7 @@ from os import name
 import ffmpeg 
 
 
+
 webbrowser.register('Chrome', None, webbrowser.BackgroundBrowser('C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'))
 URL = 'https://news.google.com/topics/CAAqBwgKMIXDmAswuMmwAw?hl=ru&gl=RU&ceid=RU%3Aru'
 HEADERS={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36', 'accept': '*/*'} 
