@@ -85,7 +85,6 @@ requests
 requests-oauthlib                 
 rfc3986                           
 rsa       
-freeze
 scipy                             
 simplejson                        
 six                               
