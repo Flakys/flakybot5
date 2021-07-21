@@ -6,7 +6,8 @@ app
 aiohttp            
 async-timeout     
 attrs              
-beautifulsoup4    
+beautifulsoup4  
+lavalink
 bs4                
 certifi            
 cffi               
