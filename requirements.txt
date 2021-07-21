@@ -84,7 +84,8 @@ PyYAML
 requests                          
 requests-oauthlib                 
 rfc3986                           
-rsa                               
+rsa       
+freeze
 scipy                             
 simplejson                        
 six                               
